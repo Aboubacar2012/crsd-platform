@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+
+    <!-- LEFT PANEL -->
+    <div class="auth-left">
+        <h1>CRSD</h1>
+        <p>Plateforme institutionnelle d’aide à la décision</p>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="auth-right">
+        <!-- 🔴 ICI : auth-box (PAS auth-card) -->
+        <div class="auth-box">
+            <!-- LOGO -->
+            <div class="auth-logo">
+                <img src="{{ url_for('static', filename='img/mshp_logo.png') }}"
+                    alt="MSHP Logo">
+                <p class="auth-logo-text">
+                    <h5>Bureau de Stratégie de Développement – BSD</h5>
+                </p>
+            </div>
+
+            <h2>Créer un compte</h2>
+
+            <form method="POST">
+
+                <div class="form-group">
+                    <input type="text" name="first_name" placeholder="Nom" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="last_name" placeholder="Prénom" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="tel" name="phone" placeholder="Téléphone" required>
+                </div>
+
+                <!-- TYPE ACTEUR -->
+                <div class="form-group">
+                    <select name="actor_type" id="actor_type" required onchange="updateOrganisation()">
+                        <option value="">Sélectionner un type d’acteur</option>
+                        <option value="ETAT">ETAT</option>
+                        <option value="PTF">PTF</option>
+                    </select>
+                </div>
+
+                <!-- ORGANISATION -->
+                <div class="form-group">
+                    <select name="organisation" id="organisation" required>
+                        <option value="">Sélectionner une organisation</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Mot de passe" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" name="confirm_password" placeholder="Confirmer le mot de passe" required>
+                </div>
+
+                <button type="submit" class="btn-login">
+                    Créer un compte
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                Vous avez déjà un compte ?
+                <a href="{{ url_for('auth.login') }}">Se connecter</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS POUR LES DROPDOWNS -->
+<script>
+function updateOrganisation() {
+    const actorType = document.getElementById("actor_type").value;
+    const organisation = document.getElementById("organisation");
+
+    organisation.innerHTML = '<option value="">Sélectionner une organisation</option>';
+
+    let options = [];
+
+    if (actorType === "ETAT") {
+        options = ["MSHP", "BSD", "DNPM", "ANSS"];
+    } else if (actorType === "PTF") {
+        options = ["OMS", "UNICEF", "UNFPA", "Expertise France", "Banque Mondiale"];
+    }
+
+    options.forEach(org => {
+        const opt = document.createElement("option");
+        opt.value = org;
+        opt.textContent = org;
+        organisation.appendChild(opt);
+    });
+}
+</script>
+{% endblock %}

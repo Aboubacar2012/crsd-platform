@@ -1,0 +1,182 @@
+/* =========================
+   RESET
+========================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* =========================
+   PAGE
+========================= */
+body {
+    background: #f4f6f9;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+.auth-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* =========================
+   LEFT PANEL
+========================= */
+.auth-left {
+    width: 40%;
+    background: linear-gradient(180deg, #0b1220, #111827);
+    color: white;
+    padding: 60px;
+}
+
+.auth-left h1 {
+    font-size: 42px;
+    margin-bottom: 20px;
+}
+
+.auth-left p {
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* =========================
+   RIGHT PANEL
+========================= */
+.auth-right {
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================
+   AUTH BOX (LOGIN & REGISTER)
+========================= */
+.auth-box {
+    width: 420px;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.auth-box h2 {
+    margin-bottom: 25px;
+    font-size: 22px;
+}
+
+/* =========================
+   FORM
+========================= */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+/* Focus UX */
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #111827;
+}
+
+/* =========================
+   REMEMBER ME
+========================= */
+.remember-row {
+    display: flex;
+    align-items: center;
+    margin: 10px 0 20px 0;
+}
+
+.remember-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.remember-label input {
+    transform: scale(1.1);
+}
+
+/* =========================
+   BUTTON
+========================= */
+.btn-login,
+.btn-register {
+    width: 100%;
+    padding: 12px;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 5px;
+}
+
+.btn-login:hover,
+.btn-register:hover {
+    background: #222;
+}
+
+/* =========================
+   FOOTER
+========================= */
+.auth-footer {
+    margin-top: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.auth-footer a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #111827;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   LOGO AUTH
+========================= */
+.auth-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-logo {
+    margin-bottom: 90px;
+    text-align: center;
+}
+
+.auth-logo img {
+    max-width: 250px;
+    height: auto;
+}
+
+.auth-note {
+    font-size: 12px;
+    color: #6b7280;
+    text-align: center;
+    margin-top: 10px;
+}
+
+

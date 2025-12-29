@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>CRSD | Login</title>
+
+    <!-- CSS AUTH -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+<body>
+
+<div class="auth-container">
+
+    <!-- LEFT PANEL -->
+    <div class="auth-left">
+        <h1>CRSD</h1>
+        <p>Cartographie des ressources et dépenses du secteur de la santé</p>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="auth-right">
+
+        <!-- ✅ WRAPPER VERTICAL (OBLIGATOIRE) -->
+        <div class="auth-wrapper">
+
+            <!-- LOGO -->
+            <div class="auth-logo">
+                <img src="{{ url_for('static', filename='img/mshp_logo.png') }}"
+                     alt="MSHP Logo">
+            <br/>
+            <h5>Bureau de Stratégie de Développement – BSD</h5>
+            </div>
+
+            <!-- LOGIN BOX -->
+            <div class="auth-box">
+
+                <h2>Connectez-vous à votre compte</h2>
+
+                <form method="POST">
+
+                    <div class="form-group">
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Mot de passe"
+                            required
+                        >
+                    </div>
+
+                    <!-- REMEMBER ME -->
+                    <div class="remember-row">
+                        <label class="remember-label">
+                            <input type="checkbox" name="remember">
+                            <span>Se souvenir de moi</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-login">
+                        Se connecter
+                    </button>
+                    <!-- ✅ ICI -->
+                    <p class="auth-note">
+                        Accès réservé aux utilisateurs autorisés.
+                    </p>
+                </form>
+
+                <div class="auth-footer">
+                    Vous n'avez pas de compte ?
+                    <a href="{{ url_for('auth.register') }}">S'inscrire</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

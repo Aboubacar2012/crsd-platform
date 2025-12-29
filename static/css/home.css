@@ -1,0 +1,128 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+}
+
+/* =====================
+   LAYOUT
+===================== */
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* =====================
+   SIDEBAR
+===================== */
+.sidebar {
+    width: 260px;
+    background: linear-gradient(180deg, #0f172a, #020617);
+    color: white;
+    padding: 25px;
+}
+
+.sidebar h2 {
+    font-size: 22px;
+}
+
+.sidebar p {
+    font-size: 12px;
+    opacity: 0.7;
+    margin-bottom: 30px;
+}
+
+.menu {
+    list-style: none;
+}
+
+.menu-item {
+    padding: 12px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+
+.menu-item:hover,
+.menu-item.active {
+    background: rgba(255,255,255,0.15);
+}
+
+/* =====================
+   MAIN
+===================== */
+.main-content {
+    flex: 1;
+    padding: 25px;
+}
+
+/* =====================
+   TOPBAR
+===================== */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 15px 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.topbar-left h1 {
+    font-size: 20px;
+}
+
+/* SEARCH */
+.topbar-center input {
+    width: 320px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.topbar-center input:focus {
+    outline: none;
+    border-color: #111827;
+}
+
+/* USER */
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-org {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.logout-btn {
+    text-decoration: none;
+    background: #111827;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.logout-btn:hover {
+    background: #000;
+}
+
+/* =====================
+   CONTENT
+===================== */
+.content-area {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}

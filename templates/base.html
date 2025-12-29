@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}CRSD{% endblock %}</title>
+
+    <!-- =========================
+         CSS AUTH (login / register)
+    ========================== -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+
+    <!-- =========================
+         CSS HOME / DASHBOARD
+    ========================== -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+
+</head>
+<body>
+
+    {% block content %}{% endblock %}
+
+</body>
+</html>
