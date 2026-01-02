@@ -4,16 +4,11 @@
     <meta charset="UTF-8">
     <title>{% block title %}CRSD{% endblock %}</title>
 
-    <!-- =========================
-         CSS AUTH (login / register)
-    ========================== -->
+    <!-- CSS GLOBAL -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
 
-    <!-- =========================
-         CSS HOME / DASHBOARD
-    ========================== -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
 

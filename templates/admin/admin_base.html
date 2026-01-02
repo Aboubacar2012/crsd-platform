@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+        <h2>Administration</h2>
+
+        <ul class="admin-menu">
+            <li><a href="{{ url_for('admin.users') }}">Utilisateurs</a></li>
+            <li><a href="{{ url_for('admin.actor_types') }}">Types d’acteurs</a></li>
+            <li><a href="{{ url_for('admin.organisations') }}">Organisations</a></li>
+            <li><a href="{{ url_for('admin.settings') }}">Base contextuelle</a></li>
+            <li><a href="{{ url_for('admin.dashboard') }}">Tableau de bord</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="admin-main">
+
+        <!-- TOPBAR -->
+        <div class="admin-topbar">
+            <h1>{% block admin_title %}Administration{% endblock %}</h1>
+
+            <div class="admin-user">
+                <span>{{ current_user.organisation }}</span>
+                <a href="{{ url_for('auth.logout') }}" class="logout-btn">
+                    Se déconnecter
+                </a>
+            </div>
+        </div>
+
+        <!-- PAGE CONTENT -->
+        <div class="admin-content">
+            {% block admin_content %}{% endblock %}
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

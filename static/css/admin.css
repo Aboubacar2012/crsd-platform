@@ -1,0 +1,104 @@
+/* =========================
+   ADMIN LAYOUT
+========================= */
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+    background: #f4f6f9;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+.admin-sidebar {
+    width: 260px;
+    background: linear-gradient(180deg, #0f172a, #020617);
+    color: white;
+    padding: 25px;
+}
+
+.admin-sidebar h2 {
+    margin-bottom: 30px;
+    font-size: 22px;
+}
+
+.admin-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.admin-menu li {
+    margin-bottom: 12px;
+}
+
+.admin-menu a {
+    display: block;
+    padding: 12px 14px;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.admin-menu a:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* =========================
+   MAIN
+========================= */
+.admin-main {
+    flex: 1;
+    padding: 25px;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+.admin-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 15px 25px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.admin-topbar h1 {
+    font-size: 20px;
+    margin: 0;
+}
+
+/* USER */
+.admin-user {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: bold;
+}
+
+/* LOGOUT */
+.logout-btn {
+    background: #111827;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.logout-btn:hover {
+    background: #000;
+}
+
+/* =========================
+   CONTENT
+========================= */
+.admin-content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}

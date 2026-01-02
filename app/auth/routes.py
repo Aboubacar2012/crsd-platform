@@ -19,12 +19,12 @@ def login():
 
         user = User.query.filter_by(email=email).first()
 
-        # 🔴 Email inexistant
+        # Email inexistant
         if not user:
             flash("Aucun compte trouvé avec cet email.", "danger")
             return redirect(url_for("auth.login"))
 
-        # 🔴 Mot de passe incorrect
+        # Mot de passe incorrect
         if not user.check_password(password):
             flash("Mot de passe incorrect.", "danger")
             return redirect(url_for("auth.login"))
@@ -32,7 +32,11 @@ def login():
         # ✅ Connexion réussie
         login_user(user, remember=remember)
         flash("Connexion réussie.", "success")
-        return redirect(url_for("home.home"))
+        # REDIRECTION SELON LE RÔLE
+        if user.role == "ADMIN":
+            return redirect(url_for("admin.dashboard"))
+        else:
+            return redirect(url_for("home.home"))
 
     return render_template("login.html")
 
@@ -53,7 +57,7 @@ def register():
         password = request.form.get("password")
         confirm_password = request.form.get("confirm_password")
 
-        # 🔴 Champs obligatoires
+        # Champs obligatoires
         if not all([
             first_name, last_name, email,
             phone, actor_type, organisation,
@@ -62,25 +66,26 @@ def register():
             flash("Tous les champs sont obligatoires.", "danger")
             return redirect(url_for("auth.register"))
 
-        # 🔴 Mots de passe différents
+        # Mots de passe différents
         if password != confirm_password:
             flash("Les mots de passe ne correspondent pas.", "danger")
             return redirect(url_for("auth.register"))
 
-        # 🔴 Email déjà existant
+        # Email déjà existant
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
             flash("Un compte avec cet email existe déjà. Veuillez vous connecter.", "warning")
             return redirect(url_for("auth.login"))
 
-        # ✅ Création utilisateur
+        # Création utilisateur
         user = User(
             first_name=first_name,
             last_name=last_name,
             email=email,
             phone=phone,
             actor_type=actor_type,
-            organisation=organisation
+            organisation=organisation,
+            role="USER"
         )
 
         user.set_password(password)

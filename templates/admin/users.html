@@ -1,0 +1,26 @@
+{% extends "admin/admin_base.html" %}
+
+{% block admin_content %}
+<h1>Gestion des utilisateurs</h1>
+
+<table class="admin-table">
+    <tr>
+        <th>Email</th>
+        <th>Rôle</th>
+        <th>Organisation</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for user in users %}
+    <tr>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{ user.organisation }}</td>
+        <td>
+            <button>Changer rôle</button>
+            <button class="danger">Supprimer</button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
