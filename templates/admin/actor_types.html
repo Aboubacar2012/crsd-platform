@@ -5,6 +5,99 @@ Types d’acteurs
 {% endblock %}
 
 {% block admin_content %}
-<h2>Gestion des types d’acteurs</h2>
-<p>Ici vous pourrez ajouter, modifier ou supprimer les types d’acteurs.</p>
+
+<h2 class="mb-4">Gestion des types d’acteurs</h2>
+
+<!-- ========================= -->
+<!-- ADD ACTOR TYPE FORM -->
+<!-- ========================= -->
+<div class="card mb-4">
+    <div class="card-header">
+        Ajouter un type d’acteur
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('admin.add_actor_type') }}">
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="form-label">Code</label>
+                    <input type="text"
+                           name="code"
+                           class="form-control"
+                           placeholder="ONG, GOV, PRV..."
+                           required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Libellé</label>
+                    <input type="text"
+                           name="label"
+                           class="form-control"
+                           placeholder="Organisation non gouvernementale"
+                           required>
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">
+                        Ajouter
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ========================= -->
+<!-- ACTOR TYPES TABLE -->
+<!-- ========================= -->
+<div class="card">
+    <div class="card-header">
+        Liste des types d’acteurs
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-striped mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Code</th>
+                    <th>Libellé</th>
+                    <th>Statut</th>
+                    <th class="text-end">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in actor_types %}
+                <tr>
+                    <td>{{ t.id }}</td>
+                    <td><strong>{{ t.code }}</strong></td>
+                    <td>{{ t.label }}</td>
+                    <td>
+                        {% if t.is_active %}
+                            <span class="badge bg-success">Actif</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Inactif</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        <a href="{{ url_for('admin.toggle_actor_type', id=t.id) }}"
+                           class="btn btn-sm {% if t.is_active %}btn-warning{% else %}btn-success{% endif %}">
+                            {% if t.is_active %}
+                                Désactiver
+                            {% else %}
+                                Activer
+                            {% endif %}
+                        </a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-3">
+                        Aucun type d’acteur enregistré
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
 {% endblock %}

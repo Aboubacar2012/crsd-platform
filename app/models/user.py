@@ -18,10 +18,22 @@ class User(UserMixin, db.Model):
     phone = db.Column(db.String(50), nullable=False)
 
     # --------------------
-    # Organisation
+    # Organisation (RELATIONNEL)
     # --------------------
-    actor_type = db.Column(db.String(50), nullable=False)   # ETAT | PTF
-    organisation = db.Column(db.String(150), nullable=False)
+    actor_type_id = db.Column(
+        db.Integer,
+        db.ForeignKey("actor_types.id"),
+        nullable=False
+    )
+
+    organisation_id = db.Column(
+        db.Integer,
+        db.ForeignKey("organisations.id"),
+        nullable=False
+    )
+
+    actor_type = db.relationship("ActorType", lazy=True)
+    organisation = db.relationship("Organisation", lazy=True)
 
     # --------------------
     # Rôle utilisateur
@@ -47,18 +59,10 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     # --------------------
-    # Role helpers (BONNE PRATIQUE)
+    # Role helpers
     # --------------------
     def is_admin(self):
         return self.role == "ADMIN"
 
     def __repr__(self):
         return f"<User {self.email} ({self.role})>"
-
-
-# --------------------
-# Flask-Login loader
-# --------------------
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))

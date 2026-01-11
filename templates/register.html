@@ -4,7 +4,6 @@
 
 {% block content %}
 
-
 <div class="auth-container">
 
     <!-- LEFT PANEL -->
@@ -15,15 +14,13 @@
 
     <!-- RIGHT PANEL -->
     <div class="auth-right">
-        <!-- 🔴 ICI : auth-box (PAS auth-card) -->
         <div class="auth-box">
+
             <!-- LOGO -->
             <div class="auth-logo">
                 <img src="{{ url_for('static', filename='img/mshp_logo.png') }}"
-                    alt="MSHP Logo">
-                <p class="auth-logo-text">
-                    <h5>Bureau de Stratégie de Développement – BSD</h5>
-                </p>
+                     alt="MSHP Logo">
+                <h5>Bureau de Stratégie de Développement – BSD</h5>
             </div>
 
             <h2>Créer un compte</h2>
@@ -46,18 +43,26 @@
                     <input type="tel" name="phone" placeholder="Téléphone" required>
                 </div>
 
-                <!-- TYPE ACTEUR -->
+                <!-- TYPE ACTEUR (DYNAMIQUE) -->
                 <div class="form-group">
-                    <select name="actor_type" id="actor_type" required onchange="updateOrganisation()">
+                    <select name="actor_type_id"
+                            id="actor_type_id"
+                            required
+                            onchange="updateOrganisation()">
                         <option value="">Sélectionner un type d’acteur</option>
-                        <option value="ETAT">ETAT</option>
-                        <option value="PTF">PTF</option>
+                        {% for actor in actor_types %}
+                            <option value="{{ actor.id }}">
+                                {{ actor.label }}
+                            </option>
+                        {% endfor %}
                     </select>
                 </div>
 
-                <!-- ORGANISATION -->
+                <!-- ORGANISATION (DYNAMIQUE) -->
                 <div class="form-group">
-                    <select name="organisation" id="organisation" required>
+                    <select name="organisation_id"
+                            id="organisation_id"
+                            required>
                         <option value="">Sélectionner une organisation</option>
                     </select>
                 </div>
@@ -83,28 +88,30 @@
     </div>
 </div>
 
-<!-- JS POUR LES DROPDOWNS -->
+<!-- JS DYNAMIQUE POUR LES ORGANISATIONS -->
 <script>
 function updateOrganisation() {
-    const actorType = document.getElementById("actor_type").value;
-    const organisation = document.getElementById("organisation");
+    const actorTypeId = document.getElementById("actor_type_id").value;
+    const organisationSelect = document.getElementById("organisation_id");
 
-    organisation.innerHTML = '<option value="">Sélectionner une organisation</option>';
+    organisationSelect.innerHTML =
+        '<option value="">Sélectionner une organisation</option>';
 
-    let options = [];
-
-    if (actorType === "ETAT") {
-        options = ["MSHP", "BSD", "DNPM", "ANSS"];
-    } else if (actorType === "PTF") {
-        options = ["OMS", "UNICEF", "UNFPA", "Expertise France", "Banque Mondiale"];
+    if (!actorTypeId) {
+        return;
     }
 
-    options.forEach(org => {
-        const opt = document.createElement("option");
-        opt.value = org;
-        opt.textContent = org;
-        organisation.appendChild(opt);
-    });
+    fetch(`/auth/organisations/${actorTypeId}`)
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(org => {
+                const option = document.createElement("option");
+                option.value = org.id;
+                option.textContent = org.name;
+                organisationSelect.appendChild(option);
+            });
+        });
 }
 </script>
+
 {% endblock %}

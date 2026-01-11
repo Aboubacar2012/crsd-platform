@@ -8,8 +8,8 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.login_view = "auth.login"
 
+
 def create_app():
-    # 🔴 CHEMINS ABSOLUS (clé du problème)
     BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
     app = Flask(
@@ -23,11 +23,18 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app)
 
-    
+    # =========================
+    # USER LOADER (ICI ET PAS AILLEURS)
+    # =========================
+    from app.models.user import User
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
+
     # =========================
     # BLUEPRINTS
     # =========================
-
     from app.auth.routes import auth_bp
     from app.home.routes import home_bp
     from app.admin.routes import admin_bp

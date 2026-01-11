@@ -5,6 +5,249 @@ Organisations
 {% endblock %}
 
 {% block admin_content %}
-<h2>Gestion des organisations</h2>
-<p>Ajout et gestion des organisations partenaires.</p>
+
+<h2 class="mb-4">Gestion des organisations</h2>
+
+<div class="card">
+    <div class="card-header">
+        Liste des organisations
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-striped mb-0 align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Organisation</th>
+                    <th>Type d’acteur</th>
+                    <th>Statut</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for org in organisations %}
+                <tr>
+                    <td>{{ org.id }}</td>
+                    <td>{{ org.name }}</td>
+                    <td>{{ org.actor_type.code }}</td>
+                    <td>
+                        {% if org.is_active %}
+                            <span class="badge bg-success">Active</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        <!-- TOGGLE -->
+                        <a href="{{ url_for('admin.toggle_organisation', organisation_id=org.id) }}"
+                           class="btn btn-sm btn-warning">
+                            Désactiver
+                        </a>
+
+                        <!-- EDIT -->
+                        <button type="button"
+                                class="btn btn-sm btn-outline-primary"
+                                data-org-id="{{ org.id }}"
+                                data-org-name="{{ org.name }}"
+                                data-actor-type-id="{{ org.actor_type.id }}"
+                                onclick="openEditModal(this)">
+                            ✏️
+                        </button>
+
+                        <!-- DELETE -->
+                        <button type="button"
+                                class="btn btn-sm btn-outline-danger"
+                                data-org-id="{{ org.id }}"
+                                data-org-name="{{ org.name }}"
+                                onclick="confirmDelete(this)">
+                            🗑️
+                        </button>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-3">
+                        Aucune organisation enregistrée
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ========================= -->
+<!-- EDIT MODAL -->
+<!-- ========================= -->
+<div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog">
+        <form method="POST" id="editForm" class="modal-content">
+
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Modifier l’organisation</h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Nom de l’organisation</label>
+                    <input type="text"
+                           name="name"
+                           id="editName"
+                           class="form-control"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Type d’acteur</label>
+                    <select name="actor_type_id"
+                            id="editActorType"
+                            class="form-select"
+                            required>
+                        {% for t in actor_types %}
+                        <option value="{{ t.id }}">
+                            {{ t.code }} — {{ t.label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Annuler
+                </button>
+
+                <button type="submit"
+                        class="btn btn-primary">
+                    Enregistrer
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- ========================= -->
+<!-- DELETE MODAL -->
+<!-- ========================= -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <form method="POST" id="deleteForm" class="modal-content">
+
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Confirmation de suppression</h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <p id="deleteText"></p>
+
+                <div id="confirmStep2" class="d-none">
+                    <p class="text-danger">
+                        Tapez <strong>SUPPRIMER</strong> pour confirmer.
+                    </p>
+                    <input type="text"
+                           name="confirmation"
+                           id="confirmationInput"
+                           class="form-control"
+                           placeholder="SUPPRIMER">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Non
+                </button>
+
+                <button type="button"
+                        class="btn btn-danger"
+                        id="confirmBtn"
+                        onclick="showFinalConfirm()">
+                    Oui
+                </button>
+
+                <button type="button"
+                        class="btn btn-danger d-none"
+                        id="finalDeleteBtn"
+                        onclick="submitDelete()">
+                    Supprimer définitivement
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- ========================= -->
+<!-- JAVASCRIPT -->
+<!-- ========================= -->
+<script>
+/* ---------- DELETE ---------- */
+let deleteModal = new bootstrap.Modal(
+    document.getElementById('deleteModal')
+);
+
+function confirmDelete(button) {
+    const orgId = button.getAttribute("data-org-id");
+    const orgName = button.getAttribute("data-org-name");
+
+    document.getElementById("deleteText").innerText =
+        "Voulez-vous vraiment supprimer l’organisation : " + orgName + " ?";
+
+    document.getElementById("deleteForm").action =
+        "/admin/organisations/" + orgId + "/delete";
+
+    document.getElementById("confirmStep2").classList.add("d-none");
+    document.getElementById("finalDeleteBtn").classList.add("d-none");
+    document.getElementById("confirmBtn").classList.remove("d-none");
+    document.getElementById("confirmationInput").value = "";
+
+    deleteModal.show();
+}
+
+function showFinalConfirm() {
+    document.getElementById("confirmStep2").classList.remove("d-none");
+    document.getElementById("confirmBtn").classList.add("d-none");
+    document.getElementById("finalDeleteBtn").classList.remove("d-none");
+}
+
+function submitDelete() {
+    const value = document.getElementById("confirmationInput").value.trim();
+
+    if (value !== "SUPPRIMER") {
+        alert("Veuillez taper exactement SUPPRIMER pour confirmer.");
+        return;
+    }
+
+    document.getElementById("deleteForm").submit();
+}
+
+/* ---------- EDIT ---------- */
+let editModal = new bootstrap.Modal(
+    document.getElementById('editModal')
+);
+
+function openEditModal(button) {
+    const orgId = button.getAttribute("data-org-id");
+    const orgName = button.getAttribute("data-org-name");
+    const actorTypeId = button.getAttribute("data-actor-type-id");
+
+    document.getElementById("editName").value = orgName;
+    document.getElementById("editActorType").value = actorTypeId;
+
+    document.getElementById("editForm").action =
+        "/admin/organisations/" + orgId + "/edit";
+
+    editModal.show();
+}
+</script>
+
 {% endblock %}
